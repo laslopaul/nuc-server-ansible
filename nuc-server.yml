@@ -1,6 +1,13 @@
 ---
 # code: language=ansible
 
+- name: Install ansible-pull service
+  hosts: nuc-server
+  become: true
+  roles:
+    - role: systemd-timer
+  tags: systemd-timer
+
 - name: Install SSH public key
   hosts: nuc-server
   ansible.posix.authorized_key:
