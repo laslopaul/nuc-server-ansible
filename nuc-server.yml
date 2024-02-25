@@ -8,26 +8,26 @@
     - role: systemd-timer
   tags: systemd-timer
 
-- name: Install SSH public key
+- name: Configure nuc-server
   hosts: nuc-server
-  ansible.posix.authorized_key:
-    user: nuc
-    state: present
-    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRNjG2APH9L1DqkEkLaPRQtNJhlePFIKIO+z8Pz7D4o"
-  tags: ssh-pubkey
+  tasks:
+    - name: Install SSH public key
+      ansible.posix.authorized_key:
+        user: nuc
+        state: present
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRNjG2APH9L1DqkEkLaPRQtNJhlePFIKIO+z8Pz7D4o"
+      tags: ssh-pubkey
 
-- name: Disable ufw
-  hosts: nuc-server
-  community.general.ufw:
-    state: disabled
-  tags: firewall
+    - name: Disable ufw
+      community.general.ufw:
+        state: disabled
+      tags: firewall
 
-- name: Install mc
-  hosts: nuc-server
-  become: true
-  ansible.builtin.apt:
-    package: mc
-    state: installed
+    - name: Install mc
+      become: true
+      ansible.builtin.apt:
+        package: mc
+        state: present
 
 - name: Install Zerotier and join the network
   hosts: nuc-server
