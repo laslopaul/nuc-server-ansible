@@ -15,6 +15,13 @@
     state: disabled
   tags: firewall
 
+- name: Install mc
+  hosts: nuc-server
+  become: true
+  ansible.builtin.apt:
+    package: mc
+    state: installed
+
 - name: Install Zerotier and join the network
   hosts: nuc-server
   become: true
