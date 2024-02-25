@@ -16,7 +16,7 @@
   tags: firewall
 
 - name: Install Zerotier and join the network
-  hosts: nuce-server
+  hosts: nuc-server
   become: true
   roles:
     - role: zerotier
