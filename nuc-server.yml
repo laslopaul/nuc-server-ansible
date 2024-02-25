@@ -1,3 +1,6 @@
+---
+#code: language=ansible
+
 - name: Install SSH public key
   hosts: nuc-server
   ansible.posix.authorized_key:
@@ -5,3 +8,9 @@
     state: present
     key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRNjG2APH9L1DqkEkLaPRQtNJhlePFIKIO+z8Pz7D4o"
   tags: ssh-pubkey
+
+- name: Disable ufw
+  hosts: nuc-server
+  community.general.ufw:
+    state: disabled
+  tags: firewall
