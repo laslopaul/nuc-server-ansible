@@ -1,5 +1,5 @@
 ---
-#code: language=ansible
+# code: language=ansible
 
 - name: Install SSH public key
   hosts: nuc-server
@@ -14,3 +14,10 @@
   community.general.ufw:
     state: disabled
   tags: firewall
+
+- name: Install Zerotier and join the network
+  hosts: nuce-server
+  become: true
+  roles:
+    - role: zerotier
+  tags: zerotier

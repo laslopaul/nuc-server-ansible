@@ -1,0 +1,34 @@
+---
+# code: language=ansible
+
+- name: Install Zerotier repo key
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/zerotier/ZeroTierOne/master/doc/contact%40zerotier.com.gpg"
+    dest: /etc/apt/trusted.gpg.d/zerotier.asc
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Install Zerotier package repo
+  ansible.builtin.apt_repository:
+    filename: zerotier
+    repo: >
+      "deb https://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
+
+- name: Install zerotier-one package
+  ansible.builtin.apt:
+    package: zerotier-one
+    state: present
+    update-cache: true
+
+- name: Start and enable Zerotier service
+  ansible.builtin.systemd_service:
+    service: zerotier-one
+    state: started
+    enabled: true
+
+- name: Join Zerotier network
+  ansible.builtin.shell:
+    chdir: /home/nuc
+    cmd: "zerotier-cli join $(cat zerotier_net_id) && rm zerotier_net_id"
+    removes: /home/nuc/zerotier_net_id
