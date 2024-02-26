@@ -31,7 +31,3 @@
     chdir: "{{ ansible_user_dir }}"
     cmd: "zerotier-cli join $(cat zerotier_net_id) && rm zerotier_net_id"
     removes: "{{ ansible_user_dir }}/zerotier_net_id"
-
-- name: Print ansible_user_dir
-  ansible.builtin.debug:
-    msg: "{{ ansible_user_dir }}"
