@@ -2,14 +2,14 @@
 # code: language=ansible
 
 - name: Install ansible-pull service
-  hosts: nuc-server
+  hosts: server
   become: true
   roles:
     - role: systemd-timer
   tags: systemd-timer
 
 - name: Configure nuc-server
-  hosts: nuc-server
+  hosts: server
   tasks:
     - name: Install SSH public key
       ansible.posix.authorized_key:
@@ -25,7 +25,7 @@
         state: present
 
 - name: Install Zerotier and join the network
-  hosts: nuc-server
+  hosts: server
   become: true
   roles:
     - role: zerotier
