@@ -13,7 +13,7 @@
   tasks:
     - name: Install SSH public key
       ansible.posix.authorized_key:
-        user: nuc
+        user: "{{ ansible_user_id }}"
         state: present
         key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRNjG2APH9L1DqkEkLaPRQtNJhlePFIKIO+z8Pz7D4o"
       tags: ssh-pubkey
