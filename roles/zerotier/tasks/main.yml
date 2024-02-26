@@ -12,8 +12,7 @@
 - name: Install Zerotier package repo
   ansible.builtin.apt_repository:
     filename: zerotier
-    repo: >
-      "deb http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
+    repo: "deb http://download.zerotier.com/debian/{{ ansible_distribution_release }} {{ ansible_distribution_release }} main"
 
 - name: Install zerotier-one package
   ansible.builtin.apt:
