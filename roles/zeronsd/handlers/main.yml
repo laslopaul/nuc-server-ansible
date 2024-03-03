@@ -1,0 +1,7 @@
+---
+- name: Restart zerotier-one service
+  ansible.builtin.systemd_service:
+    service: zerotier-one
+    state: restarted
+    daemon-reload: true
+  listen: "restart zerotier-one"

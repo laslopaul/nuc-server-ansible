@@ -13,13 +13,7 @@
 - name: Install Zerotier Systemd Manager
   ansible.builtin.apt:
     deb: "{{ zerotier_manager_url }}"
-
-
-- name: Restart zerotier-one service
-  ansible.builtin.systemd_service:
-    service: zerotier-one
-    state: restarted
-    daemon-reload: true
+  notify: "restart zerotier-one"
 
 
 - name: Enable zerotier-systemd-manager

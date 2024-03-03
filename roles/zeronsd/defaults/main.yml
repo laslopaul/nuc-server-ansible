@@ -10,7 +10,7 @@ zerotier_manager_url: "https://github.com/zerotier/zerotier-systemd-manager/rele
 zeronsd_version: "0.5.2"
 
 # URL of ZeroNSD package
-zeronsd_url: "https://github.com/zerotier/zeronsd/releases/download/v{{ zeronsd_version }}/zeronsd_{{ zeronsd_version }}_{{ arch }}.deb"
+zeronsd_url: "https://github.com/zerotier/zeronsd/releases/download/v{{ zeronsd_version }}/zeronsd_ubuntu22_{{ zeronsd_version }}_{{ arch }}.deb"
 
 # Name of ZeroNSD DNS zone
 zeronsd_zone: ""
