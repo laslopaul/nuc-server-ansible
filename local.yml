@@ -30,3 +30,18 @@
   roles:
     - role: zerotier
   tags: zerotier
+
+- name: Enable DNS in Zerotier network
+  hosts: server
+  become: true
+  roles:
+    - role: zeronsd
+      zeronsd_zone: nucnet
+
+# - name: Deploy K3s cluster
+#   hosts: server
+#   become: true
+#   roles:
+#     - role: k3s
+#       install_k3s_exec: "server --disable=traefik --disable-helm-controller --disable-cloud-controller --disable-network-policy"
+#   tags: k3s

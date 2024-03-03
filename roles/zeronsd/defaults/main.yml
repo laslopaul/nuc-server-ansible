@@ -1,0 +1,22 @@
+---
+
+# Version of zerotier-systemd-manager package
+zerotier_manager_version: "0.4.0"
+
+# URL of zerotier-systemd-manager package
+zerotier_manager_url: "https://github.com/zerotier/zerotier-systemd-manager/releases/download/v{{ zerotier_manager_version }}/zerotier-systemd-manager_{{ zerotier_manager_version }}_linux_{{ arch }}.deb"
+
+# Version of ZeroNSD package
+zeronsd_version: "0.5.2"
+
+# URL of ZeroNSD package
+zeronsd_url: "https://github.com/zerotier/zeronsd/releases/download/v{{ zeronsd_version }}/zeronsd_{{ zeronsd_version }}_{{ arch }}.deb"
+
+# Name of ZeroNSD DNS zone
+zeronsd_zone: ""
+
+# Id of Zerotier network to serve DNS to
+zerotier_net_id: ""
+
+# Path to Zerotier API token
+zerotier_token: /var/lib/zerotier-one/token
