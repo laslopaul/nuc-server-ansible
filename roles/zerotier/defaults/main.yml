@@ -1,0 +1,4 @@
+---
+
+# Id of Zerotier network to join
+zerotier_net_id: ""

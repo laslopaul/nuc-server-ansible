@@ -26,8 +26,12 @@
     state: started
     enabled: true
 
+- name: Find Zerotier network ids
+  ansible.builtin.command: "zerotier-cli list-networks | tail -n +2 | cut -f3 -d' '"
+  register: zerotier_networks
+  changed_when: false
+
 - name: Join Zerotier network
-  ansible.builtin.shell:
-    chdir: "{{ ansible_user_dir }}"
-    cmd: "zerotier-cli join $(cat zerotier_net_id) && rm zerotier_net_id"
-    removes: "{{ ansible_user_dir }}/zerotier_net_id"
+  ansible.builtin.command: "zerotier-cli join {{ zerotier_net_id }}"
+  when: zerotier_net_id not in zerotier_networks.stdout_lines
+  changed_when: false
