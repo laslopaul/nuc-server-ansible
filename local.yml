@@ -5,7 +5,6 @@
   hosts: server
   roles:
     - name: Install ansible-pull service
-      become: true
       role: systemd-timer
       tags: systemd-timer
 
@@ -18,13 +17,11 @@
       tags: ssh-pubkey
 
     - name: Install mc
-      become: true
       ansible.builtin.apt:
         package: mc
         state: present
 
     - name: Install Python client for Kubernetes
-      become: true
       ansible.builtin.apt:
         pkg: python3-kubernetes
         state: present
@@ -33,7 +30,6 @@
 
 - name: Install Zerotier and join the network
   hosts: server
-  become: true
   roles:
     - role: zerotier
   tags: zerotier
@@ -41,7 +37,6 @@
 
 - name: Enable DNS in Zerotier network
   hosts: server
-  become: true
   roles:
     - role: zeronsd
       zeronsd_zone: nucnet
@@ -50,7 +45,6 @@
 
 - name: Deploy K3s cluster
   hosts: server
-  become: true
   roles:
     - role: k3s
       install_k3s_exec: "server --disable=traefik --disable-helm-controller --disable-cloud-controller --disable-network-policy"
@@ -58,7 +52,6 @@
 
 - name: Install and bootstrap flux
   hosts: server
-  become: true
   roles:
     - role: flux
       repo_owner: laslopaul
