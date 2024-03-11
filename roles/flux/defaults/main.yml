@@ -21,3 +21,6 @@ personal: true
 
 # Hostname for a self-hosted / enterprise VCS server
 hostname: ""
+
+# Path to kubeconfig for kubernetes.core.k8s lookup
+kube_path: /etc/rancher/k3s/k3s.yaml

@@ -19,9 +19,9 @@
     path: "{{ ansible_user_dir }}/.bashrc"
     line: source <(flux completion bash)
 
-- name: Check if flux has been already bootstrapped
+- name: Check if flux-system namespace exists in the cluster
   ansible.builtin.set_fact:
-    bootstrap: "{{ lookup('ansible.builtin.env', 'FLUX_BOOTSTRAP') }}"
+    flux_ns: "{{ query('kubernetes.core.k8s', kubeconfig={{kube_path}}, api_version='v1', kind='Namespace', resource_name='flux-system') }}"
 
 - name: Bootstrap flux
   ansible.builtin.shell: >
@@ -35,7 +35,5 @@
           --path={{ repo_path }} \
           {% if personal -%}--personal \{% endif -%}
           {% if  hostname | length > 0 -%}--hostname={{ hostname }}{% endif -%}
-
-          echo 'export FLUX_BOOTSTRAP=true' >> /root/.bashrc
-  when: bootstrap == 'true'
+  when: flux_ns | length == 0
   changed_when: false
