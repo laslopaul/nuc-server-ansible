@@ -1,0 +1,50 @@
+---
+# Environment variables used in K3s installation script
+
+# If set to true will not download K3s hash or binary
+install_k3s_skip_download: false
+
+# By default will create symlinks for the kubectl, crictl, and ctr binaries if the commands do not already exist in path.
+# If set to 'skip' will not create symlinks and 'force' will overwrite
+install_k3s_symlink: ""
+
+# If set to true will not enable or start K3s service
+install_k3s_skip_enable: false
+
+# If set to true will not start K3s service
+install_k3s_skip_start: false
+
+# Version of K3s to download from Github. Will attempt to download from the stable channel if not specified
+install_k3s_version: ""
+
+# Directory to install K3s binary, links, and uninstall script to, or use /usr/local/bin as the default
+install_k3s_bin_dir: /usr/local/bin
+
+# If set to true will not write files to INSTALL_K3S_BIN_DIR, forces setting INSTALL_K3S_SKIP_DOWNLOAD=true
+install_k3s_bin_dir_read_only: false
+
+# If set to true will not write files to INSTALL_K3S_BIN_DIR, forces setting INSTALL_K3S_SKIP_DOWNLOAD=true
+install_k3s_systemd_dir: ""
+
+# Command with flags to use for launching K3s in the service. If the command is not specified, and the K3S_URL is set, it will default to "agent"
+# If K3S_URL not set, it will default to "server"
+install_k3s_exec: ""
+
+# Name of systemd service to create, will default to 'k3s' if running k3s as a server and 'k3s-agent' if running k3s as an agent
+# If specified the name will be prefixed with 'k3s-'
+install_k3s_name: ""
+
+# Type of systemd service to create, will default from the K3s exec command if not specified
+install_k3s_type: ""
+
+# If set to true will continue if k3s-selinux policy is not found
+install_k3s_selinux_warn: false
+
+# If set to true will skip automatic installation of the k3s RPM
+install_k3s_skip_selinux_rpm: false
+
+# Channel URL for fetching K3s download URL. Defaults to https://update.k3s.io/v1-release/channels
+install_k3s_channel_url: https://update.k3s.io/v1-release/channels
+
+# Channel to use for fetching K3s download URL. Defaults to "stable". Options include: stable, latest, testing
+install_k3s_channel: stable
