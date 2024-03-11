@@ -20,20 +20,27 @@
     line: source <(flux completion bash)
 
 - name: Check if flux-system namespace exists in the cluster
-  ansible.builtin.set_fact:
-    flux_ns: "{{ query('kubernetes.core.k8s', kubeconfig='/root/.kube/config', kind='Namespace', resource_name='flux-system') }}"
+  kubernetes.core.k8s_info:
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
+    kind: Namespace
+    name: flux-system
+  register: flux_ns
 
-- name: Bootstrap flux
-  ansible.builtin.shell: >
-    set -eo pipefail
-    echo "{{ repo_token }}" \
-      | flux bootstrap {{ provider }} \
-          --token-auth \
-          --owner={{ repo_owner }} \
-          --repository={{ repo_name }} \
-          --branch={{ repo_branch }} \
-          --path={{ repo_path }} \
-          {% if personal -%}--personal \{% endif -%}
-          {% if  hostname | length > 0 -%}--hostname={{ hostname }}{% endif -%}
-  when: flux_ns | length == 0
-  changed_when: false
+- name: Debug
+  ansible.builtin.debug:
+    msg: flux_ns
+
+#- name: Bootstrap flux
+#  ansible.builtin.shell: >
+#    set -eo pipefail
+#    echo "{{ repo_token }}" \
+#      | flux bootstrap {{ provider }} \
+#          --token-auth \
+#          --owner={{ repo_owner }} \
+#          --repository={{ repo_name }} \
+#          --branch={{ repo_branch }} \
+#          --path={{ repo_path }} \
+#          {% if personal -%}--personal \{% endif -%}
+#          {% if  hostname | length > 0 -%}--hostname={{ hostname }}{% endif -%}
+#  when: flux_ns | length == 0
+#  changed_when: false
