@@ -28,7 +28,7 @@
 
 - name: Debug
   ansible.builtin.debug:
-    msg: flux_ns
+    msg: "{{ flux_ns }}"
 
 #- name: Bootstrap flux
 #  ansible.builtin.shell: >
