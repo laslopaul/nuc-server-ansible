@@ -25,8 +25,8 @@
 
     - name: Install Python client for Kubernetes
       become: true
-      ansible.builtin.pip:
-        name: kubernetes
+      ansible.builtin.apt:
+        pkg: python3-kubernetes
         state: present
   tags: server-config
 
