@@ -20,8 +20,9 @@
     line: source <(flux completion bash)
 
 - name: Check if flux-system namespace exists in the cluster
+  become: true
   kubernetes.core.k8s_info:
-    kubeconfig: /etc/rancher/k3s/k3s.yaml
+    kubeconfig: /root/.kube/config
     kind: Namespace
     name: flux-system
   register: flux_ns
