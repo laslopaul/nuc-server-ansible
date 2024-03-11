@@ -22,6 +22,12 @@
       ansible.builtin.apt:
         package: mc
         state: present
+
+    - name: Install Python client for Kubernetes
+      become: true
+      ansible.builtin.pip:
+        name: kubernetes
+        state: present
   tags: server-config
 
 
