@@ -55,5 +55,6 @@
   roles:
     - role: flux
       repo_owner: laslopaul
+      repo_name: nuc-server-flux
       repo_path: "clusters/k3s"
   tags: flux
