@@ -29,3 +29,11 @@
     INSTALL_K3S_SKIP_SELINUX_RPM: "{{ install_k3s_skip_selinux_rpm }}"
     INSTALL_K3S_CHANNEL_URL: "{{ install_k3s_channel_url }}"
     INSTALL_K3S_CHANNEL: "{{ install_k3s_channel }}"
+
+- name: Add kubectl bash completion and alias
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_user_dir }}/.bashrc"
+    content: >
+      alias k=kubectl
+      source <(kubectl completion bash)
+      complete -F __start_kubectl k
