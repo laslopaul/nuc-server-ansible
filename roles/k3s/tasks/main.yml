@@ -33,6 +33,6 @@
 - name: Add kubectl bash completion and alias
   ansible.builtin.blockinfile:
     path: "{{ ansible_user_dir }}/.bashrc"
-    content: >
-      alias k=kubectl
+    block: |
       source <(kubectl completion bash)
+      alias k=kubectl
