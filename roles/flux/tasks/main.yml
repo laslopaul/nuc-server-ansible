@@ -22,7 +22,7 @@
 - name: Check if flux-system namespace exists in the cluster
   become: true
   ansible.builtin.set_fact:
-    flux_ns: "{{ query('kubernetes.core.k8s', kubeconfig='/etc/rancher/k3s/k3s.yaml', api_version='v1', kind='Namespace', resource_name='flux-system') }}"
+    flux_ns: "{{ query('kubernetes.core.k8s', kind='Namespace', resource_name='flux-system') }}"
 
 - name: Bootstrap flux
   ansible.builtin.shell: >
