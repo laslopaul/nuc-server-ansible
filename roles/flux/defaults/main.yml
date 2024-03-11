@@ -1,0 +1,23 @@
+---
+# Variables for flux bootstrap process
+
+# VCS provider (github, gitlab, gitea, bitbucket-server, git)
+provider: github
+
+# Token used to access the repository
+repo_token: ""
+
+# Owner of the repository
+repo_owner: ""
+
+# Repository branch used by flux
+repo_branch: master
+
+# Path to host flux manifests in
+repo_path: ""
+
+# Used to determine if the repo is  hosted in apersonal account or organization
+personal: true
+
+# Hostname for a self-hosted / enterprise VCS server
+hostname: ""

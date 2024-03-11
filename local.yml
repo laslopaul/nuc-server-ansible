@@ -49,3 +49,12 @@
     - role: k3s
       install_k3s_exec: "server --disable=traefik --disable-helm-controller --disable-cloud-controller --disable-network-policy"
   tags: k3s
+
+- name: Install and bootstrap flux
+  hosts: server
+  become: true
+  roles:
+    - role: flux
+      repo_owner: laslopaul
+      repo_path: "clusters/k3s"
+  tags: flux

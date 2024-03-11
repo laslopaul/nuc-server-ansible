@@ -1,0 +1,40 @@
+---
+# code: language=ansible
+
+- name: Download flux installation script
+  ansible.builtin.get_url:
+    url: https://fluxcd.io/install.sh
+    dest: /tmp/install_flux.sh
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install flux
+  ansible.builtin.command: /tmp/install_flux.sh
+  creates: /usr/local/bin/flux
+
+- name: Add flux completion for bash
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_user_dir }}/.bashrc"
+    line: source <(flux completion bash)
+
+- name: Check if flux has been already bootstrapped
+  ansible.builtin.set_fact:
+    bootstrap: "{{ lookup('ansible.builtin.env', 'FLUX_BOOTSTRAP') }}"
+
+- name: Bootstrap flux
+  ansible.builtin.shell: >
+    set -eo pipefail
+    echo "{{ repo_token }}" \
+      | flux bootstrap {{ provider }} \
+          --token-auth \
+          --owner={{ repo_owner }} \
+          --repository={{ repo_name }} \
+          --branch={{ repo_branch }} \
+          --path={{ repo_path }} \
+          {% if personal -%}--personal \{% endif -%}
+          {% if  hostname | length > 0 -%}--hostname={{ hostname }}{% endif -%}
+
+          echo 'export FLUX_BOOTSTRAP=true' >> /root/.bashrc
+  when: bootstrap == 'true'
+  changed_when: false
