@@ -1,31 +1,36 @@
 ---
 # code: language=ansible
 
-- name: Set dpkg architecture
-  vars:
-    arch_map:
-      aarch64: arm64
-      x86_64: amd64
-  ansible.builtin.set_fact:
-    arch: "{{ [ansible_architecture] | map('extract', arch_map) | first }}"
+- name: Check if packages are installed
+  ansible.builtin.package_facts:
+    manager: apt
 
 
-- name: Install Zerotier Systemd Manager
-  ansible.builtin.apt:
-    deb: "{{ zerotier_manager_url }}"
-  notify: "restart zerotier-one"
+- name: Install packages
+  when: "'zerotier-systemd-manager' and 'zeronsd-ubuntu22' not in ansible_facts.packages"
+  block:
+    - name: Set dpkg architecture
+      vars:
+        arch_map:
+          aarch64: arm64
+          x86_64: amd64
+      ansible.builtin.set_fact:
+        arch: "{{ [ansible_architecture] | map('extract', arch_map) | first }}"
 
+    - name: Install Zerotier Systemd Manager
+      ansible.builtin.apt:
+        deb: "{{ zerotier_manager_url }}"
+      notify: "restart zerotier-one"
 
-- name: Enable zerotier-systemd-manager
-  ansible.builtin.systemd_service:
-    service: zerotier-systemd-manager.timer
-    state: started
-    enabled: true
+    - name: Enable zerotier-systemd-manager
+      ansible.builtin.systemd_service:
+        service: zerotier-systemd-manager.timer
+        state: started
+        enabled: true
 
-
-- name: Install ZeroNSD package
-  ansible.builtin.apt:
-    deb: "{{ zeronsd_url }}"
+    - name: Install ZeroNSD package
+      ansible.builtin.apt:
+        deb: "{{ zeronsd_url }}"
 
 
 - name: Check if DNS is enabled in the network
@@ -42,12 +47,11 @@
       changed_when: false
 
     - name: Serve DNS to the network
-      ansible.builtin.command: "zeronsd supervise -t {{ zerotier_token }} -w -d {{ zeronsd_zone }} {{ zerotier_net_id }}"
+      ansible.builtin.command: "zeronsd supervise -t {{ zerotier_token_path }} -w -d {{ zeronsd_zone }} {{ zerotier_net_id }}"
       changed_when: false
 
-
-- name: Start ZeroNSD service
-  ansible.builtin.systemd_service:
-    service: "zeronsd-{{ zerotier_net_id }}"
-    state: started
-    enabled: true
+    - name: Start ZeroNSD service
+      ansible.builtin.systemd_service:
+        service: "zeronsd-{{ zerotier_net_id }}"
+        state: started
+        enabled: true

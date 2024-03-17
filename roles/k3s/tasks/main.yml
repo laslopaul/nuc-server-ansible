@@ -1,7 +1,13 @@
 ---
 # code: language=ansible
 
+- name: Check if k3s is installed
+  ansible.builtin.stat:
+    path: "{{ install_k3s_bin_dir }}/k3s"
+  register: k3s_bin
+
 - name: Download K3s installation script
+  when: k3s_bin.stat.exists is false
   ansible.builtin.get_url:
     url: https://get.k3s.io
     dest: /tmp/install_k3s.sh
@@ -12,7 +18,7 @@
 - name: Run K3s installation script
   ansible.builtin.command:
     cmd: /tmp/install_k3s.sh
-    creates: /etc/rancher/k3s/k3s.yaml
+    creates: "{{ install_k3s_bin_dir }}/k3s"
   environment:
     INSTALL_K3S_SKIP_DOWNLOAD: "{{ install_k3s_skip_download }}"
     INSTALL_K3S_SYMLINK: "{{ install_k3s_symlink }}"

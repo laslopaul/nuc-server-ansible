@@ -19,4 +19,4 @@ zeronsd_zone: ""
 zerotier_net_id: ""
 
 # Path to Zerotier API token
-zerotier_token: /var/lib/zerotier-one/token
+zerotier_token_path: /var/lib/zerotier-one/token

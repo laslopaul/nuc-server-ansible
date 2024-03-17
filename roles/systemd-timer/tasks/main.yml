@@ -12,12 +12,9 @@
     - ansible-pull.service
     - ansible-pull.timer
 
-- name: Reload systemd daemons
-  ansible.builtin.systemd:
-    daemon_reload: true
-
 - name: Enable ansible-pull timer
   ansible.builtin.systemd:
     unit: ansible-pull.timer
+    daemon_reload: true
     state: started
     enabled: true

@@ -1,23 +1,33 @@
 ---
 # code: language=ansible
 
-- name: Download flux installation script
-  ansible.builtin.get_url:
-    url: https://fluxcd.io/install.sh
-    dest: /tmp/install_flux.sh
-    owner: root
-    group: root
-    mode: "0755"
+- name: Check if flux is installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/flux
+  register: flux_bin
+
 
 - name: Install flux
-  ansible.builtin.command:
-    cmd: /tmp/install_flux.sh
-    creates: /usr/local/bin/flux
+  when: flux_bin.stat.exists is false
+  block:
+    - name: Download flux installation script
+      ansible.builtin.get_url:
+        url: https://fluxcd.io/install.sh
+        dest: /tmp/install_flux.sh
+        owner: root
+        group: root
+        mode: "0755"
 
-- name: Add flux completion for bash
-  ansible.builtin.lineinfile:
-    path: "{{ ansible_user_dir }}/.bashrc"
-    line: source <(flux completion bash)
+    - name: Run flux installation script
+      ansible.builtin.command:
+        cmd: /tmp/install_flux.sh
+      creates: /usr/local/bin/flux
+
+    - name: Add flux completion for bash
+      ansible.builtin.lineinfile:
+        path: "{{ ansible_user_dir }}/.bashrc"
+        line: source <(flux completion bash)
+
 
 - name: Check if flux-system namespace exists in the cluster
   kubernetes.core.k8s_info:
@@ -25,6 +35,7 @@
     kind: Namespace
     name: flux-system
   register: flux_ns
+
 
 - name: Bootstrap flux
   ansible.builtin.shell:
