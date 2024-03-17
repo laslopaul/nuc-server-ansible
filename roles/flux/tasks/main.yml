@@ -21,7 +21,7 @@
     - name: Run flux installation script
       ansible.builtin.command:
         cmd: /tmp/install_flux.sh
-      creates: /usr/local/bin/flux
+        creates: /usr/local/bin/flux
 
     - name: Add flux completion for bash
       ansible.builtin.lineinfile:
