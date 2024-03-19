@@ -60,12 +60,9 @@
 - name: Gather service facts
   ansible.builtin.service_facts:
 
-- name: Print service facts
-  ansible.builtin.debug:
-    msg: "{{ ansible_facts.services }}"
 
 - name: Restart ZeroNSD if it has failed
-  when: "ansible_facts.services['zeronsd-{{ zerotier_net_id }}'].state == 'failed'"
+  when: "ansible_facts.services['zeronsd-{{ zerotier_net_id }}.service'].state == 'failed'"
   ansible.builtin.systemd_service:
     service: "zeronsd-{{ zerotier_net_id }}"
     state: restarted
